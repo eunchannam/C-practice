@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+string str;
+
+void remove(char ch) {
+	int a = 0;
+	while (1) {
+		a = str.find(ch, a);
+		if (a == -1) {
+			break;
+		}
+		if (str[a + 1] == ch) {
+			str.erase(a + 1, 1);
+		}
+		else a++;
+	}
+}
+
+void step1() {
+	remove('(');
+	remove(')');
+}
+
+void step2() {
+	int cnt = 0;
+	for (int i = 0; i < str.length(); i++) {
+		if (str[i] == '^') {
+			cnt++;
+		}
+		else cnt = 0;
+		if (cnt == 3) {
+			str.erase(i, 1);
+		}
+	}
+}
+
+void step3() {
+	string temp;
+	int a = 0; int b = 0;
+	while (1) {
+		a = str.find('^', b);
+		b = str.find('^', a + 1);
+		if (a == -1) break;
+		a++;
+		b--;
+		temp = str.substr(a, b - a + 1);
+
+		if (temp == "0") {
+			str.erase(a, 1);
+			str.insert(a, "_");
+		}
+		b += 2;
+	}
+}
+
+int main()
+{
+	cin >> str;
+
+	step1();
+	step2();
+	step3();
+
+	cout << str;
+
+	return 0;
+}
